@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class HttpTestScript : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class HttpTestScript : MonoBehaviour
     void Start()
     {
         Debug.Log("start");
+        StartCoroutine(HttpConnect());
     }
 
     // Update is called once per frame
@@ -15,4 +17,16 @@ public class HttpTestScript : MonoBehaviour
     {
         
     }
+
+    // HTTPリクエスト実行
+    IEnumerator HttpConnect(){
+		string url = "http://127.0.0.1:3101/users/";
+		UnityWebRequest uwr = UnityWebRequest.Get(url);
+		yield return uwr.SendWebRequest();
+		if (uwr.result == UnityWebRequest.Result.ProtocolError || uwr.result == UnityWebRequest.Result.ConnectionError) {
+			Debug.Log(uwr.error);
+		} else {
+			Debug.Log(uwr.downloadHandler.text);
+		}
+	}
 }
