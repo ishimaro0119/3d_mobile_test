@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class HttpTestScript : MonoBehaviour
 {
+    public GameObject text_object = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,10 @@ public class HttpTestScript : MonoBehaviour
             Debug.Log(uwr.error);
         } else {
             Debug.Log(uwr.downloadHandler.text);
+
+            // テキストの書き換え
+            Text test_text = text_object.GetComponent<Text> ();
+            test_text.text = "変更後テキスト";
         }
     }
 }
