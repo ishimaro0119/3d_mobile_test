@@ -24,7 +24,7 @@ public class HttpTestScript : MonoBehaviour
     // HTTPリクエスト実行
     IEnumerator HttpConnect()
     {
-        string url = "http://127.0.0.1:3101/users/";
+        string url = "http://127.0.0.1:3100/users/";
         UnityWebRequest uwr = UnityWebRequest.Get(url);
         yield return uwr.SendWebRequest();
         if (uwr.result == UnityWebRequest.Result.ProtocolError || uwr.result == UnityWebRequest.Result.ConnectionError) {
@@ -34,7 +34,13 @@ public class HttpTestScript : MonoBehaviour
 
             // テキストの書き換え
             Text test_text = text_object.GetComponent<Text> ();
-            test_text.text = "変更後テキスト";
+            User user1 = JsonUtility.FromJson<User>(uwr.downloadHandler.text);
+            test_text.text = user1.firstName;
         }
     }
+}
+
+public class User
+{
+    public string firstName;
 }
